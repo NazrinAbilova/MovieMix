@@ -1,0 +1,13 @@
+#19232e - dark blue
+#e59a30 - orange
+#384350 - light/dark blue
+#f7dd19 - yellow
+#d21f1f - red
+#f1f1f1 - as white
+#585454 - gray
+#f3b969 - as orange
+#36639a - blue
+#d4edda - light green for success
+#155724 - dark green for success
+#f8d7da - light red for error
+#721c24 - dark red for error
