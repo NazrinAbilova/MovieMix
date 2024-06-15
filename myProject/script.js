@@ -77,9 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
 // movies api
-// api
 const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
@@ -153,7 +151,6 @@ const genres = [
 const movies = document.getElementById('movies');
 const form = document.getElementById('form');
 const search = document.getElementById('search');
-const tagsEl = document.getElementById('tags');
 
 const prev = document.getElementById('prev')
 const next = document.getElementById('next')
@@ -167,80 +164,11 @@ var lastUrl = '';
 var totalPages = 50;
 
 
-var selectedGenre = [] // films genres array
-setGenre();
-
-// setGenre()
-function setGenre() {
-  tagsEl.innerHTML = '';
-  genres.forEach(genre => { // for - each genres
-    const m_tags = document.createElement('div');
-    m_tags.classList.add('tag');
-    m_tags.id = genre.id;
-    m_tags.innerText = genre.name;
-    m_tags.addEventListener('click', () => { // click for tag
-      if (selectedGenre.length == 0) {  // if selected genres is not on array
-        selectedGenre.push(genre.id);
-      } else {
-        if (selectedGenre.includes(genre.id)) { // include
-          selectedGenre.forEach((id, idx) => {
-            if (id == genre.id) {
-              selectedGenre.splice(idx, 1);
-            }
-          })
-        } else {
-          selectedGenre.push(genre.id);
-        }
-      }
-      console.log(selectedGenre)
-      getMovies(API_URL + '&with_genres=' + encodeURI(selectedGenre.join(','))) // The API request for the selected genres
-      highlightSelection()
-    })
-    tagsEl.append(m_tags);
-  })
-
-}
-
-// highlightSelection()
-function highlightSelection() {
-  const tags = document.querySelectorAll('.tag'); //  all tags with the '.tag' class
-  tags.forEach(tag => {
-    tag.classList.remove('highlight') // remove .highlight class from all tags.
-  })
-  clearBtn() // call the function if needed
-  if (selectedGenre.length != 0) {
-    selectedGenre.forEach(id => {
-      const hightlightedTag = document.getElementById(id);
-      hightlightedTag.classList.add('highlight');
-    })
-  }
-}
-
-// clearBtn()
-function clearBtn() {
-  let clearBtn = document.getElementById('clear'); // #clear 
-  if (clearBtn) {
-    clearBtn.classList.add('highlight')
-  } else {
-    let clear = document.createElement('div');
-    clear.classList.add('tag', 'highlight');
-    clear.id = 'clear';
-    clear.innerText = 'Clear';
-    clear.addEventListener('click', () => {
-      selectedGenre = [];
-      setGenre();
-      getMovies(API_URL);
-    })
-    tagsEl.append(clear);
-  }
-}
 
 
 // for searching
 document.getElementById('search-icon').addEventListener('click', () => {
   const searchTerm = search.value.trim();
-  selectedGenre = [];
-  setGenre();
   if (searchTerm) {
     getMovies(searchURL + '&query=' + searchTerm);
   } else {
@@ -327,7 +255,7 @@ function getMovies(url) {
           next.classList.remove('disabled');
         }
 
-        tagsEl.scrollIntoView({ behavior: 'smooth' });
+        // tagsEl.scrollIntoView({ behavior: 'smooth' });
 
         handleResize();
 
@@ -336,8 +264,6 @@ function getMovies(url) {
       }
     });
 }
-
-
 
 // showMovies()
 function showMovies(data) {
@@ -473,6 +399,7 @@ function openNav(movie) {
 // closeNav()
 function closeNav() {
   document.getElementById("navigation").style.width = "0%";
+  document.body.style.overflow = 'visible';
 }
 
 // variables for the active slide index and total number of videos
